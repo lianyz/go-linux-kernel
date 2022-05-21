@@ -31,6 +31,7 @@ func run() {
 	cmd.SysProcAttr = &syscall.SysProcAttr{
 		Cloneflags: syscall.CLONE_NEWUTS,
 	}
+
 	must(cmd.Run())
 }
 
