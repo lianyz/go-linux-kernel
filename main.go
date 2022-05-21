@@ -77,6 +77,7 @@ func writeCGroup(fileName string, data string) {
 
 func must(err error) {
 	if err != nil {
+		fmt.Println(err.Error())
 		panic(err)
 	}
 }
