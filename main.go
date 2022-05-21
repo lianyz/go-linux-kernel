@@ -29,7 +29,8 @@ func run() {
 	cmd.SysProcAttr = &syscall.SysProcAttr{
 		Cloneflags: syscall.CLONE_NEWUTS,
 	}
-	must(cmd.Run(syscall.Sethostname([]byte("container1"))))
+	must(syscall.Sethostname([]byte("container1")))
+	must(cmd.Run())
 }
 
 func must(err error) {
