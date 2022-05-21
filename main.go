@@ -8,10 +8,15 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"os"
 	"os/exec"
+	"path/filepath"
+	"strconv"
 	"syscall"
 )
+
+const mycontaierMemoryCgroups = "/sys/fs/cgroup/memory/mycontainer"
 
 func main() {
 	switch os.Args[1] {
@@ -43,7 +48,8 @@ func run() {
 
 func child() {
 	fmt.Println("[exe]", "pid:", os.Getpid())
-	
+
+	setCGroup()
 	must(syscall.Sethostname([]byte("mycontainer")))
 	must(os.Chdir("/"))
 	must(syscall.Mount("proc", "proc", "proc", 0, ""))
@@ -55,6 +61,18 @@ func child() {
 	must(cmd.Run())
 
 	must(syscall.Unmount("proc", 0))
+}
+
+func setCGroup() {
+	os.Mkdir(mycontaierMemoryCgroups, 0755)
+	writeCGroup("memory.limit_in_bytes", "100M")
+	writeCGroup("notify_on_release", "1")
+	writeCGroup("tasks", strconv.Itoa(os.Getpid()))
+}
+
+func writeCGroup(fileName string, data string) {
+	must(ioutil.WriteFile(filepath.Join(mycontaierMemoryCgroups,
+		fileName), []byte(data), 0700))
 }
 
 func must(err error) {
