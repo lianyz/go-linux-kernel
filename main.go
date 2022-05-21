@@ -25,6 +25,8 @@ func main() {
 }
 
 func run() {
+	fmt.Println("[main]", "pid:", os.Getpid())
+
 	cmd := exec.Command("/proc/self/exe", append([]string{"child"}, os.Args[2:]...)...)
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
@@ -41,6 +43,7 @@ func run() {
 
 func child() {
 	fmt.Println("[exe]", "pid:", os.Getpid())
+	
 	must(syscall.Sethostname([]byte("mycontainer")))
 	must(os.Chdir("/"))
 	must(syscall.Mount("proc", "proc", "proc", 0, ""))
