@@ -16,7 +16,7 @@ import (
 	"syscall"
 )
 
-const mycontaierMemoryCgroups = "/sys/fs/cgroup/memory/mycontainer"
+const mycontaierMemoryCgroups = "/sys/fs/cgroup/memory/lianyz/mycontainer"
 
 func main() {
 	switch os.Args[1] {
