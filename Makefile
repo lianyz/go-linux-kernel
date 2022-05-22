@@ -7,6 +7,10 @@ all: build run
 build:
 	go build
 
+.PHONY: tools
+tools:
+	apt install memtester
+
 .PHONY: run
 run:
 	./go-linux-kernel run /bin/bash
