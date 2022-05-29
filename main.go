@@ -64,7 +64,7 @@ func child() {
 }
 
 func setCGroup() {
-	must(os.Mkdir(mycontaierMemoryCgroups, 0755))
+	os.MkdirAll(mycontaierMemoryCgroups, 0755)
 	writeCGroup("memory.limit_in_bytes", "100M")
 	writeCGroup("notify_on_release", "1")
 	writeCGroup("tasks", strconv.Itoa(os.Getpid()))
